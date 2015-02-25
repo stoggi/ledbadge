@@ -29,9 +29,11 @@ def send_command(command):
         # Sleep for 100ms, this seems to be enough to let the display execute text commands
         time.sleep(0.1)
 
-def send_text(text, speed=5):
+def send_text(text, speed, mode):
+    # Limit the text to 250 characters
+    text = text[:250]
     # Prepend the speed, mode and length to the string
-    text = "51B" + chr(len(text)) + text
+    text = str(speed) + "1" + mode + chr(len(text)) + text
 
     send_command(COMMAND_BEGIN)
 
@@ -53,17 +55,17 @@ def send_text(text, speed=5):
 
 @begin.subcommand
 @begin.convert(speed=int)
-def text(text, speed=5):
+def text(text, speed=5, mode='B'):
     "Display text on the LED screen"
     logging.info("Writing '{}' to display".format(text))
-    send_text(text, speed)
+    send_text(text, speed, mode)
     logging.info("Done")
 
 @begin.subcommand
 def clear():
     "Clear the LED screen"
     logging.info("Clearing the display")
-    send_text('')
+    send_text('', 1, 'A')
     logging.info("Done")
 
 @begin.start
