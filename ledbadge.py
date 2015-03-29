@@ -26,8 +26,8 @@ def send_command(command):
     if s:
         # Send the command
         s.write(command)
-        # Sleep for 100ms, this seems to be enough to let the display execute text commands
-        time.sleep(0.1)
+        # Sleep for 200ms, this seems to be enough to let the display execute text commands
+        time.sleep(0.2)
 
 def send_text(text, speed, mode):
     # Limit the text to 250 characters
